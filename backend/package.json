@@ -1,0 +1,27 @@
+{
+  "name": "vps-manager-backend",
+  "version": "1.0.0",
+  "description": "Backend for Docker-based VPS management system",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dockerode": "^3.3.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "express-validator": "^7.0.1",
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^7.1.0",
+    "morgan": "^1.10.0",
+    "socket.io": "^4.6.1",
+    "yaml": "^2.2.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+}

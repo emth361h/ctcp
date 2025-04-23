@@ -1,0 +1,29 @@
+FROM ubuntu:24.04
+
+# Install Node.js and npm
+RUN apt-get update && apt-get install -y \
+    curl \
+    gnupg \
+    ca-certificates \
+    docker.io \
+    docker-compose \
+    && curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y nodejs \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create app directory
+WORKDIR /app
+
+# Install app dependencies
+COPY package*.json ./
+RUN npm install
+
+# Bundle app source
+COPY . .
+
+# Expose port
+EXPOSE 3000
+
+# Start the application
+CMD ["npm", "start"]

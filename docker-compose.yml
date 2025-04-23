@@ -1,0 +1,74 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: vps-backend
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./backend:/app
+    environment:
+      - NODE_ENV=development
+      - MONGO_URI=mongodb://mongo:27017/vps-manager
+      - JWT_SECRET=changeme_in_production
+      - PORT=3000
+    depends_on:
+      - mongo
+    networks:
+      - vps-network
+    command: >
+      sh -c "
+        echo 'Waiting for MongoDB to start...' &&
+        sleep 10 &&
+        node src/utils/initDb.js &&
+        npm start
+      "
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: vps-frontend
+    restart: unless-stopped
+    volumes:
+      - ./frontend:/app
+    environment:
+      - NODE_ENV=development
+    depends_on:
+      - backend
+    networks:
+      - vps-network
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    container_name: vps-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/conf:/etc/nginx/conf.d
+      - ./nginx/certs:/etc/nginx/certs
+    depends_on:
+      - backend
+      - frontend
+    networks:
+      - vps-network
+
+  mongo:
+    image: mongo:latest
+    container_name: vps-mongo
+    restart: unless-stopped
+    volumes:
+      - ./data/mongo:/data/db
+    networks:
+      - vps-network
+
+networks:
+  vps-network:
+    driver: bridge
