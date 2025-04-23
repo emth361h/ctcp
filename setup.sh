@@ -22,12 +22,12 @@ mkdir -p backend/data/dockerfiles
 mkdir -p data/mongo
 
 echo "Setting up backend..."
-cd backend/src
+cd backend
 ./setup.sh
 cd ..
 
 echo "Setting up frontend..."
-cd frontend/src
+cd frontend
 ./setup.sh
 cd ..
 
