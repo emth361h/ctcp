@@ -1,221 +1,104 @@
-# Docker VPS Manager Web Console
+# Docker VPS マネージャー ウェブコンソール
 
-A web-based control panel for managing Docker containers, networks, images, and resources on a VPS server. This application provides both user and admin interfaces for comprehensive Docker management.
+VPSサーバー上のDockerコンテナ、ネットワーク、イメージ、リソースを管理するためのウェブベースのコントロールパネルです。このアプリケーションは、包括的なDocker管理のためのユーザーインターフェースと管理者インターフェースの両方を提供します。
 
-## Features
+## 機能
 
-### User Features
-- Container management (create, start, stop, restart, remove)
-- Network management (create, connect, disconnect, remove)
-- Image management (pull, build, remove)
-- Docker Compose management
-- Dockerfile management
-- Resource monitoring (CPU, memory, storage)
+### ユーザー機能
+- コンテナ管理（作成、起動、停止、再起動、削除）
+- ネットワーク管理（作成、接続、切断、削除）
+- イメージ管理（取得、ビルド、削除）
+- Docker Compose管理
+- Dockerfile管理
+- リソースモニタリング（CPU、メモリ、ストレージ）
 
-### Admin Features
-- All user features
-- User management (create, edit, delete users)
-- Resource allocation per user
-- System-wide monitoring
-- Detailed resource usage statistics
+### 管理者機能
+- すべてのユーザー機能
+- ユーザー管理（ユーザーの作成、編集、削除）
+- ユーザーごとのリソース割り当て
+- システム全体のモニタリング
+- 詳細なリソース使用統計
 
-## Architecture
+## アーキテクチャ
 
-The application is built using the following technologies:
+このアプリケーションは、以下の技術を使用して構築されています：
 
-- **Backend**: Node.js with Express
-- **Frontend**: React with TypeScript and Material UI
-- **Database**: MongoDB
-- **Proxy**: Nginx
-- **Containerization**: Docker and Docker Compose
+- **バックエンド**: Node.js と Express
+- **フロントエンド**: React と TypeScript と Material UI
+- **データベース**: MongoDB
+- **プロキシ**: Nginx
+- **コンテナ化**: Docker と Docker Compose
 
-## Prerequisites
+## 前提条件
 
-- Ubuntu 24.04 (or compatible Linux distribution)
-- Docker and Docker Compose installed
-- Git (for cloning the repository)
+- Ubuntu 24.04（または互換性のあるLinuxディストリビューション）
+- Docker と Docker Compose がインストールされていること
+- Git（リポジトリのクローン用）
 
-## Installation
+## インストール
 
-1. Clone the repository:
+1. リポジトリをクローンします：
    ```
    git clone <repository-url>
    cd docker-vps-manager
    ```
 
-2. Check prerequisites:
+2. 前提条件を確認します：
    ```
    ./check-prerequisites.sh
    ```
 
-3. Run the setup script:
+3. セットアップスクリプトを実行します：
    ```
    ./setup.sh
    ```
 
-4. Start the application:
+4. アプリケーションを起動します：
    ```
    ./start.sh
    ```
 
-5. Access the application:
-   - Open your browser and navigate to `http://localhost`
-   - Default admin credentials: admin@example.com / adminpassword
-
-## Maintenance
-
-### Status
-
-To check the status of the application:
-```
-./status.sh
-```
-This will display the status of all containers, resource usage, network status, and service accessibility.
-
-### Monitoring
-
-To monitor the resource usage of your Docker containers in real-time:
-```
-./monitor.sh [refresh_interval_in_seconds]
-```
-The default refresh interval is 5 seconds if not specified.
-
-### Logs
-
-To view the logs of the application:
-```
-./logs.sh [options]
+5. アプリケーションにアクセスします：
+   - ブラウザを開き、`http://localhost` にアクセスします
+   - デフォルトの管理者認証情報: admin@example.com / adminpassword
 ```
 
-Options:
-- `-s, --service SERVICE`: Service to show logs for (backend, frontend, nginx, mongo, all)
-- `-l, --lines LINES`: Number of lines to show (default: 100)
-- `-f, --follow`: Follow log output
-- `-h, --help`: Show help message
-
-Examples:
-```
-./logs.sh                     # Show last 100 lines of logs for all services
-./logs.sh -s backend          # Show last 100 lines of logs for backend service
-./logs.sh -s backend -l 50    # Show last 50 lines of logs for backend service
-./logs.sh -s backend -f       # Follow logs for backend service
-```
-
-### Backup and Restore
-
-To create a backup of your data:
-```
-./backup.sh
-```
-
-To restore from a backup:
-```
-./restore.sh backups/vps-manager-backup-YYYY-MM-DD_HH-MM-SS.tar.gz
-```
-
-### Start and Stop
-
-To start the application:
-```
-./start.sh
-```
-
-To stop the application or specific services:
-```
-./stop.sh [service]
-```
-
-Where `[service]` is optional and can be one of: backend, frontend, nginx, mongo, all. If not specified, all services will be stopped.
-
-### Restart
-
-To restart the application or specific services:
-```
-./restart.sh [service]
-```
-
-Where `[service]` is optional and can be one of: backend, frontend, nginx, mongo, all. If not specified, all services will be restarted.
-
-### Updates
-
-To update the application to the latest version:
-```
-./update.sh
-```
-
-### Cleanup
-
-To clean up unused Docker resources (containers, networks, volumes, images):
-```
-./cleanup.sh
-```
-This script will help you free up disk space by removing unused Docker resources.
-
-### User Management
-
-To create a new user from the command line:
-```
-./create-user.sh
-```
-This script will prompt you for user details (username, email, password, role, resource limits) and create a new user account.
-
-To list all users in the system:
-```
-./list-users.sh
-```
-This script will display information about all users in the system, including their resource limits and account status.
-
-### Reset Admin Password
-
-If you forget the admin password, you can reset it using:
-```
-./reset-admin-password.sh
-```
-This script will prompt you for a new password and update the admin user's password in the database.
-
-### Uninstallation
-
-To uninstall the application:
-```
-./uninstall.sh
-```
-
-## Project Structure
+## プロジェクト構造
 
 ```
 .
-├── backend/                 # Backend API
-│   ├── src/                 # Source code
-│   │   ├── controllers/     # Request handlers
-│   │   ├── middleware/      # Express middleware
-│   │   ├── models/          # Mongoose models
-│   │   ├── routes/          # API routes
-│   │   ├── utils/           # Utility functions
-│   │   └── index.js         # Entry point
-│   ├── data/                # Data storage
-│   │   ├── compose/         # Docker Compose files
-│   │   └── dockerfiles/     # Dockerfile storage
-│   └── Dockerfile           # Backend Docker image
-├── frontend/                # Frontend React app
-│   ├── src/                 # Source code
-│   │   ├── components/      # Reusable components
-│   │   ├── context/         # React context
-│   │   ├── pages/           # Page components
-│   │   ├── utils/           # Utility functions
-│   │   ├── App.tsx          # Main app component
-│   │   └── index.tsx        # Entry point
-│   └── Dockerfile           # Frontend Docker image
-├── nginx/                   # Nginx configuration
-│   ├── conf/                # Configuration files
-│   └── Dockerfile           # Nginx Docker image
-├── data/                    # Persistent data
-│   └── mongo/               # MongoDB data
-└── docker-compose.yml       # Docker Compose configuration
+├── backend/                 # バックエンドAPI
+│   ├── src/                 # ソースコード
+│   │   ├── controllers/     # リクエストハンドラ
+│   │   ├── middleware/      # Expressミドルウェア
+│   │   ├── models/          # Mongooseモデル
+│   │   ├── routes/          # APIルート
+│   │   ├── utils/           # ユーティリティ関数
+│   │   └── index.js         # エントリーポイント
+│   ├── data/                # データストレージ
+│   │   ├── compose/         # Docker Composeファイル
+│   │   └── dockerfiles/     # Dockerfileストレージ
+│   └── Dockerfile           # バックエンドDockerイメージ
+├── frontend/                # フロントエンドReactアプリ
+│   ├── src/                 # ソースコード
+│   │   ├── components/      # 再利用可能なコンポーネント
+│   │   ├── context/         # Reactコンテキスト
+│   │   ├── pages/           # ページコンポーネント
+│   │   ├── utils/           # ユーティリティ関数
+│   │   ├── App.tsx          # メインアプリコンポーネント
+│   │   └── index.tsx        # エントリーポイント
+│   └── Dockerfile           # フロントエンドDockerイメージ
+├── nginx/                   # Nginx設定
+│   ├── conf/                # 設定ファイル
+│   └── Dockerfile           # NginxのDockerイメージ
+├── data/                    # 永続データ
+│   └── mongo/               # MongoDBデータ
+└── docker-compose.yml       # Docker Compose設定
 ```
 
-## Development
+## 開発
 
-### Backend Development
+### バックエンド開発
 
 ```
 cd backend
@@ -223,7 +106,7 @@ npm install
 npm run dev
 ```
 
-### Frontend Development
+### フロントエンド開発
 
 ```
 cd frontend
@@ -231,21 +114,21 @@ npm install
 npm start
 ```
 
-## API Documentation
+## API ドキュメント
 
-The API documentation is available at `/api/docs` when the application is running.
+APIドキュメントは、アプリケーション実行時に `/api/docs` で利用できます。
 
-## Security Considerations
+## セキュリティに関する考慮事項
 
-- The application uses JWT for authentication
-- All API endpoints are protected with authentication middleware
-- Admin-only routes are protected with role-based authorization
-- Container resource limits are enforced per user
+- アプリケーションは認証にJWTを使用しています
+- すべてのAPIエンドポイントは認証ミドルウェアで保護されています
+- 管理者専用ルートはロールベースの認可で保護されています
+- コンテナリソース制限はユーザーごとに適用されます
 
-## License
+## ライセンス
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+このプロジェクトはMITライセンスの下でライセンスされています - 詳細はLICENSEファイルを参照してください。
 
-## Contributing
+## 貢献
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+貢献は歓迎します！プルリクエストを自由に提出してください。
